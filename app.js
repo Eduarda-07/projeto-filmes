@@ -46,13 +46,27 @@ app.use((request, response, next) => {
 
 const controllerFilme = require('./controller/filme/controllerFilme')
 
-app.post('/v1/crontrole-filmes/filme', cors(), bodyParserJSON, async function (request, response){
+app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
     //recebe do body da requisição os dados encaminhados
     let dadosBody = request.body
     let resultFilme = await controllerFilme.inserirFilme(dadosBody)
 
     response.status(resultFilme.status_code)
     response.json(resultFilme)
+})
+
+app.get('/v1/controle-filmes/filme', cors(), async function(request, response) {
+    
+    //chama a função para retornar os filmes
+    let resultFilme = await controllerFilme.listarFilme()
+
+    response.status(resultFilme.status_code)
+    response.json(resultFilme)
+
 })
 
 app.listen('8080', function(){
