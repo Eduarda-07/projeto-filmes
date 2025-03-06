@@ -69,6 +69,17 @@ app.get('/v1/controle-filmes/filme', cors(), async function(request, response) {
 
 })
 
+app.get('/v1/controle-filmes/filmeId', cors(), async function(request, response) {
+    
+    let dadosParams = request.params
+
+    let resultFilme = await controllerFilme.buscarFilme(dadosParams)
+
+    response.status(resultFilme.status_code)
+    response.json(resultFilme)
+
+})
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardadndo requisições')
 })

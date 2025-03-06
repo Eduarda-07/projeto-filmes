@@ -17,7 +17,7 @@ const inserirFilme = async function(filme, contentType){
     try{
 
         if(String(contentType).toLowerCase() == 'application/json'){
-            if ( filme.nome             == '' || filme.nome             == undefined || filme.nome             == null || filme.nome.length              > 80 ||
+            if ( filme.nome            == '' || filme.nome             == undefined || filme.nome             == null || filme.nome.length              > 80 ||
                 filme.duracao          == '' || filme.duracao          == undefined || filme.duracao          == null || filme.duracao.length           > 5 ||
                 filme.sinopse          == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
                 filme.data_lancamento  == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length  > 10 ||
@@ -95,8 +95,42 @@ const listarFilme = async function(){
 }
 
 // função para tratar o retorno de um filme filtrando pelo ID do DAO
-const buscarFilme = async function(){
+const buscarFilme = async function(id){
     
+    try {
+
+        if (  isNaN(id) === ""   ||   isNaN(id) === undefined || isNaN(id) === null ) {
+            
+            return message.ERRO_REQUIRED_FIELD //400
+
+        } else {
+
+    
+            let dadosFilme = {}
+
+            let resulSelect= await filmeDAO.selecByIdFilme(id)
+
+            if(resulSelect != false){
+
+                if(resulSelect.length > 0){
+
+                    dadosFilme.status = true
+                    dadosFilme.status_code = 200
+                    dadosFilme.films = resultFilme
+    
+                    return dadosFilme
+                }else{
+                    return message.ERROR_NOT_FOUND //404
+                }
+              
+          
+            }else{
+                return message.ERROR_INTERNAL_SERVER_MODEL //500
+            }
+        }
+    } catch (error) {
+        return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
 }
 
 module.exports = {
