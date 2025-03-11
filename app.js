@@ -53,7 +53,7 @@ app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (re
 
     //recebe do body da requisição os dados encaminhados
     let dadosBody = request.body
-    let resultFilme = await controllerFilme.inserirFilme(dadosBody)
+    let resultFilme = await controllerFilme.inserirFilme(dadosBody, contentType)
 
     response.status(resultFilme.status_code)
     response.json(resultFilme)
@@ -69,11 +69,42 @@ app.get('/v1/controle-filmes/filme', cors(), async function(request, response) {
 
 })
 
-app.get('/v1/controle-filmes/filmeId', cors(), async function(request, response) {
+app.get('/v1/controle-filmes/filme/:id', cors(), async function(request, response) {
     
-    let dadosParams = request.params
+    let idFilme = request.params.id
 
-    let resultFilme = await controllerFilme.buscarFilme(dadosParams)
+    let resultFilme = await controllerFilme.buscarFilme(idFilme)
+
+    response.status(resultFilme.status_code)
+    response.json(resultFilme)
+
+})
+
+app.delete('/v1/controle-filmes/filme/:id', cors(), async function (request, response) {
+    
+    let idFilme =  request.params.id
+
+    let resultFilme = await controllerFilme.excluirFilme(idFilme)
+
+    response.status(resultFilme.status_code)
+    response.json(resultFilme)
+
+    // no teste deste endpoint o filme 3 foi deletado!!!!
+
+})
+
+app.put('/v1/controle-filmes/filme/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idFilme =  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+    let resultFilme = await controllerFilme.atualizarFilme(idFilme, dadosBody, contentType)
 
     response.status(resultFilme.status_code)
     response.json(resultFilme)
