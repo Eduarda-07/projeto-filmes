@@ -9,7 +9,7 @@
 
 /*************************** STATUS CODE DE MENSAGEM DE ERRO **************************/
 
-const ERROR_REQUIRED_FIELD = {status: false, status_code: 400, message: "Não foi possível realizar a requisição, pois existem campo obrigatórios que não foram preenchidos ou não atendem a quantidade de caracteres!!!"}
+const ERROR_REQUIRED_FIELD = {status: false, status_code: 400, message: "Não foi possível realizar a requisição, pois existem campos obrigatórios que não foram preenchidos ou não atendem a quantidade de caracteres!!!"}
 
 const ERROR_INTERNAL_SERVER_MODEL = {status: false, status_code: 500, message: "Devido a erros internos no servidor da model, não foi possível processar a requisição!!!"}
 

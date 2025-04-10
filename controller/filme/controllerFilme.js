@@ -11,6 +11,7 @@ const message = require('../../modulo/config.js')
 // import do arquivo para realizar o CROUD de dados no Banco de Dados
 const filmeDAO = require('../../model/DAO/filme.js')
 
+
 // função para tratar a inserção de um novo filme no DAO
 const inserirFilme = async function(filme, contentType){
 
@@ -31,7 +32,7 @@ const inserirFilme = async function(filme, contentType){
                // response.status_code = 400
                // response.message = "Os atributos informados na requisição não estão de acordo. Ex: Campos obrigatórios, quantidade de caractéries..."
        
-               return message.ERRO_REQUIRED_FIELD //400
+               return message.ERROR_REQUIRED_FIELD //400
            }else{
                let resultfilme= await filmeDAO.insertFilme(filme)
        

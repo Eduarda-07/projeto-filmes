@@ -11,3 +11,8 @@ create table tbl_filme(
     foto_capa varchar(200),
     link_trailer varchar(200)
 );
+
+create table tbl_nacionalidade(
+	id_nacionalidade int not null primary key auto_increment,
+    descricao varchar(45) not null
+);

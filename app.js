@@ -15,7 +15,7 @@
  * Após a instalação do prisma e do prisma client, devemos:
  * 1) npx prisma init
  * 
- * Você deverá consigurar o arquivo .env e schema.prisma com as credenciais do BD
+ * Você deverá configurar o arquivo .env e schema.prisma com as credenciais do BD
  * 
  * Após essa configuração deverá rodar o seguinte comando:
  *  1) npx prisma migrate dev (tomar cuidado: acontece um reset no banco)
@@ -45,6 +45,7 @@ app.use((request, response, next) => {
 
 
 const controllerFilme = require('./controller/filme/controllerFilme')
+const controllerNacionalidade = require('./controller/filme/controllerNacionalidade')
 
 app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (request, response){
 
@@ -113,4 +114,19 @@ app.put('/v1/controle-filmes/filme/:id', cors(), bodyParserJSON, async function 
 
 app.listen('8080', function(){
     console.log('API funcionando e aguardadndo requisições')
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/v1/controle-filmes/nacionalidade', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe do body da requisição os dados encaminhados
+    let dadosBody = request.body
+    let resultNacionalidade = await controllerNacionalidade.inserirNacionalidade(dadosBody, contentType)
+
+    response.status(resultNacionalidade.status_code)
+    response.json(resultNacionalidade)
 })
