@@ -20,7 +20,7 @@ const insertNacionalidade = async function(nacionalidade){
                 )
                  
                     values(
-                        '${filme.descricao}'
+                        '${nacionalidade.descricao}'
                     )`
 
          // await só funciona com o "async", serve para fazer uma pausa no terminal para aguardar a conexão com o banco de dados
@@ -32,9 +32,90 @@ const insertNacionalidade = async function(nacionalidade){
             return false
  
     }catch (error){
-        // console.log(error)
+        console.log(error)
+        return false
+    }
+}
+
+const updateNacionalidade = async function(nacionalidade){
+
+    try {
+        
+        let sql = `update tbl_nacionalidade set 
+                                    descricao = '${nacionalidade.descricao}'
+                                    where id_nacionalidade = ${nacionalidade.id}`
+
+        let resultNacionalidade = await prisma.$executeRawUnsafe(sql)
+
+        if(resultNacionalidade){
+            return true
+        }else{
+            return false
+        }
+
+    } catch (error) {
+      
         return false
     }
 
-   
+}
+
+const deleteNacionalidade = async function(id){
+    try {
+        let sql = `delete from tbl_nacionalidade where id = ${id}`
+
+        let result =  await prisma.$executeRawUnsafe(sql)
+
+        if (result) {
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+}
+
+const selectAllNacionalidade = async function(){
+    try{
+
+        let sql = 'select * from tbl_nacionalidade order by id desc'
+
+        let result = await prisma.$queryRawUnsafe(sql)
+
+        if(result)
+            return result
+        else
+            return false
+
+    }catch(error){
+        return false
+    }
+}
+
+const selecByIdNacionalidade = async function(id){
+    
+    try {
+        let sql = `select * from tbl_nacionalidade where id = ${id}`
+
+        let result =  await prisma.$queryRawUnsafe(sql)
+
+        if (result) {
+            return result
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+
+}
+
+
+module.exports = {
+    insertNacionalidade,
+    updateNacionalidade,
+    deleteNacionalidade,
+    selectAllNacionalidade,
+    selecByIdNacionalidade
 }

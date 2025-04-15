@@ -16,3 +16,8 @@ create table tbl_nacionalidade(
 	id_nacionalidade int not null primary key auto_increment,
     descricao varchar(45) not null
 );
+
+create table tbl_genero(
+	id_genero int not null primary key auto_increment,
+    descricao varchar(45) not null
+);

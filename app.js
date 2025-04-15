@@ -112,10 +112,6 @@ app.put('/v1/controle-filmes/filme/:id', cors(), bodyParserJSON, async function 
 
 })
 
-app.listen('8080', function(){
-    console.log('API funcionando e aguardadndo requisições')
-})
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 app.post('/v1/controle-filmes/nacionalidade', cors(), bodyParserJSON, async function (request, response){
@@ -129,4 +125,59 @@ app.post('/v1/controle-filmes/nacionalidade', cors(), bodyParserJSON, async func
 
     response.status(resultNacionalidade.status_code)
     response.json(resultNacionalidade)
+})
+
+app.put('/v1/controle-filmes/nacionalidade/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idNacionalidade =  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+
+    let resultNacionalidade = await controllerNacionalidade.atualizarNacionalidade(idNacionalidade, dadosBody, contentType)
+
+    response.status(resultNacionalidade.status_code)
+    response.json(resultNacionalidade)
+
+})
+
+app.get('/v1/controle-filmes/nacionalidade', cors(), async function(request, response) {
+    
+    let resultNacionalidade = await controllerNacionalidade.listarNacionalidade()
+
+    response.status(resultNacionalidade.status_code)
+    response.json(resultNacionalidade)
+
+})
+
+app.get('/v1/controle-filmes/nacionalidade/:id', cors(), async function(request, response) {
+    
+    let idNacionalidade = request.params.id
+
+    let resultNacionalidade = await controllerNacionalidade.buscarNacionalidade(idNacionalidade)
+
+    response.status(resultNacionalidade.status_code)
+    response.json(resultNacionalidade)
+
+})
+
+app.delete('/v1/controle-filmes/nacionalidade/:id', cors(), async function (request, response) {
+    
+    let idNacionalidade =  request.params.id
+
+    let resultNacionalidade = await controllerNacionalidade.excluirNacionalidade(idNacionalidade)
+
+    response.status(resultNacionalidade.status_code)
+    response.json(resultNacionalidade)
+
+
+})
+
+app.listen('8080', function(){
+    console.log('API funcionando e aguardadndo requisições')
 })
