@@ -309,6 +309,67 @@ app.put('/v1/controle-filmes/categoria/:id', cors(), bodyParserJSON, async funct
     response.json(resultCategoria)
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/v1/controle-filmes/classificacao', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe do body da requisição os dados encaminhados
+    let dadosBody = request.body
+    let resultClassificacao = await controllerClassificacao.inserirClassificacao(dadosBody, contentType)
+
+    response.status(resultClassificacao.status_code)
+    response.json(resultClassificacao)
+})
+
+app.get('/v1/controle-filmes/classificacao', cors(), async function(request, response) {
+    
+    //chama a função para retornar as classificações
+    let resultClassificacao = await controllerClassificacao.listarClassificacao()
+
+    response.status(resultClassificacao.status_code)
+    response.json(resultClassificacao)
+})
+
+app.get('/v1/controle-filmes/classificacao/:id', cors(), async function(request, response) {
+    
+    let idClassificacao = request.params.id
+
+    let resultClassificacao = await controllerClassificacao.buscarClassificacao(idClassificacao)
+
+    response.status(resultClassificacao.status_code)
+    response.json(resultClassificacao)
+})
+
+app.delete('/v1/controle-filmes/classificacao/:id', cors(), async function (request, response) {
+    
+    let idClassificacao =  request.params.id
+
+    let resultClassificacao = await controllerClassificacao.excluirClassificacao(idClassificacao)
+
+    response.status(resultClassificacao.status_code)
+    response.json(resultClassificacao)
+})
+
+app.put('/v1/controle-filmes/classificacao/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idClassificacao =  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+    let resultClassificacao = await controllerClassificacao.atualizarClassificacao(idClassificacao, dadosBody, contentType)
+
+    response.status(resultClassificacao.status_code)
+    response.json(resultClassificacao)
+})
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardadndo requisições')
 })
