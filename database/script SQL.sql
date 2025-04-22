@@ -21,3 +21,18 @@ create table tbl_genero(
 	id_genero int not null primary key auto_increment,
     descricao varchar(45) not null
 );
+
+create table tbl_idioma(
+	id_idioma int not null primary key auto_increment,
+    descricao varchar(8) not null
+);
+
+create table tbl_classificacao(
+	id_classificacao int not null primary key auto_increment,
+    descricao varchar(45) not null
+);
+
+create table tbl_categoria(
+	id_categoria int not null primary key auto_increment,
+    descricao varchar(45) not null
+);

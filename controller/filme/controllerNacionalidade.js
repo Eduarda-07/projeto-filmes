@@ -39,7 +39,7 @@ const inserirNacionalidade = async function(nacionalidade, contentType){
 
         
     }catch(error){
-        console.log(error)
+        // console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
        
     }
@@ -198,6 +198,5 @@ module.exports = {
     atualizarNacionalidade,
     excluirNacionalidade,
     listarNacionalidade,
-    buscarNacionalidade,
-
+    buscarNacionalidade
 }
