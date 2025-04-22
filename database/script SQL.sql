@@ -24,7 +24,9 @@ create table tbl_genero(
 
 create table tbl_idioma(
 	id_idioma int not null primary key auto_increment,
-    descricao varchar(8) not null
+    pais varchar(45) not null,
+    nome varchar(15) not null,
+    codigo varchar(10) not null
 );
 
 create table tbl_classificacao(
@@ -32,7 +34,8 @@ create table tbl_classificacao(
     descricao varchar(45) not null
 );
 
-create table tbl_categoria(
-	id_categoria int not null primary key auto_increment,
-    descricao varchar(45) not null
+create table tbl_premiacao(
+	id_premiacao int not null primary key auto_increment,
+    nome varchar(100) not null,
+    ano_indicacao year not null
 );

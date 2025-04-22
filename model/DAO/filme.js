@@ -77,7 +77,7 @@ const updateFilme = async function(filme){
 
 }
 
-// função para deletar um filmeexistente
+// função para deletar um filme existente
 const deleteFilme = async function(id){
     try {
         let sql = `delete from tbl_filme where id = ${id}`

@@ -20,7 +20,7 @@ const inserirGenero = async function(genero, contentType){
         //contentType é quem chega o body, especificando que deve ser json
         if(String(contentType).toLowerCase() == 'application/json'){
             if ( 
-                genero.descricao   == '' ||   genero.descricao   == undefined || genero.descricao   == null || genero.descricao.length      >  8 
+                genero.descricao   == '' ||   genero.descricao   == undefined || genero.descricao   == null || genero.descricao.length      >  45 
                )
        
            {
@@ -55,7 +55,7 @@ const atualizarGenero = async function(id, genero, contentType){
         if(String(contentType).toLowerCase() == 'application/json'){
             if (
                 id      == '' ||     id      == undefined || id     == null || isNaN(id)    || id <= 0  || 
-                genero.descricao         == '' || genero.descricao        == undefined || genero.descricao       == null || genero.descricao.length        > 8 
+                genero.descricao         == '' || genero.descricao        == undefined || genero.descricao       == null || genero.descricao.length   > 45
                )
        
            {

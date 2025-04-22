@@ -43,10 +43,12 @@ const updateClassificacao = async function(classificacao){
 
     try {
         
-        let sql = `update tbl_classificacao set descricao  = '${classificacao.descricao}', 
-                                    where id_classificacao = ${classificacao.id}
+        let sql = `update tbl_classificacao set descricao  = '${classificacao.descricao}' 
+                                    where id_classificacao = '${classificacao.id}'
                                     `
-                            
+        
+                                    // console.log(sql);
+                                    
         let resultClassificacao = await prisma.$executeRawUnsafe(sql)
 
         if(resultClassificacao){
@@ -55,6 +57,8 @@ const updateClassificacao = async function(classificacao){
             return false
         }
     } catch (error) {
+        // console.log(error);
+        
         return false
     }
 

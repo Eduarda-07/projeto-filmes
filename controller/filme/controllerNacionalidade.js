@@ -52,7 +52,7 @@ const atualizarNacionalidade = async function(id, nacionalidade, contentType){
         if(String(contentType).toLowerCase() == 'application/json'){
             if (
                id      == '' ||     id      == undefined || id     == null || isNaN(id)    || id <= 0  || 
-                nacionalidade.descricao         == '' || nacionalidade.descricao        == undefined || nacionalidade.descricao       == null || nacionalidade.descricao.length            > 45 
+                nacionalidade.descricao         == '' || nacionalidade.descricao        == undefined || nacionalidade.descricao       == null || nacionalidade.descricao.length   > 45 
                )
        
            {

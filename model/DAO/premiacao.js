@@ -13,13 +13,15 @@ const{PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 // função para inserir uma nova categoria
-const insertCategoria = async function(categoria){
+const insertPremiacao = async function(premiacao){
     try{
-        let sql = `insert into tbl_categoria (
-                    descricao
+        let sql = `insert into tbl_premiacao (
+                    nome,
+                    ano_indicacao
                 )
                     values(
-                        '${categoria.descricao}'
+                        '${premiacao.nome}',
+                        '${premiacao.ano_indicacao}'
                     )`
 
          // await só funciona com o "async", serve para fazer uma pausa no terminal para aguardar a conexão com o banco de dados
@@ -31,36 +33,39 @@ const insertCategoria = async function(categoria){
             return false
  
     }catch (error){
-        // console.log(error)
+        console.log(error)
         return false
     }
 }
 
 // função para atualizar uma categoria existente
-const updateCategoria = async function(categoria){
+const updatePremiacao = async function(premiacao){
 
     try {
         
-        let sql = `update tbl_categoria set nome  = '${categoria.descricao}'
-                                        where id_categoria = ${descricao.id}
+        let sql = `update tbl_premiacao set nome  = '${premiacao.descricao}',
+                                            ano_indicacao = '${premiacao.ano_indicacao}'
+                                        where id_premiacao = ${premiacao.id}
                                     `
-        let resultCategoria = await prisma.$executeRawUnsafe(sql)
+        let resultPremiacao = await prisma.$executeRawUnsafe(sql)
 
-        if(resultCategoria){
+        if(resultPremiacao){
             return true
         }else{
             return false
         }
 
     } catch (error) {
+        console.log(error);
+        
         return false
     }
 }
 
 // função para deletar uma categoria existente
-const deleteCategoria = async function(id){
+const deletePremiacao = async function(id){
     try {
-        let sql = `delete from tbl_categoria where id_categoria = ${id}`
+        let sql = `delete from tbl_premiacao where id_premiacao = ${id}`
 
         let result =  await prisma.$executeRawUnsafe(sql)
 
@@ -75,11 +80,11 @@ const deleteCategoria = async function(id){
 }
 
 // função para retornar todos as categorias existentes
-const selectAllCategoria = async function(){
+const selectAllPremiacao = async function(){
     try{
 
         //scriptSQL para retornar todos os dados
-        let sql = 'select * from tbl_categoria order by id_categoria desc'
+        let sql = 'select * from tbl_premiacao order by id_premiacao desc'
 
         //executa o scriptSQL no banco de dados e aguarda o retorno dos dados 
         let result = await prisma.$queryRawUnsafe(sql)
@@ -95,10 +100,10 @@ const selectAllCategoria = async function(){
 }
 
 // função para buscar uma categoria pelo id
-const selecByIdCategoria = async function(id){
+const selecByIdPremiacao= async function(id){
     
     try {
-        let sql = `select * from tbl_categoria where id_categoria = ${id}`
+        let sql = `select * from tbl_premiacao where id_premiacao = ${id}`
 
         let result =  await prisma.$queryRawUnsafe(sql)
 
@@ -113,9 +118,9 @@ const selecByIdCategoria = async function(id){
 }
 
 module.exports = {
-    insertCategoria,
-    updateCategoria,
-    deleteCategoria,
-    selectAllCategoria,
-    selecByIdCategoria
+    insertPremiacao,
+    updatePremiacao,
+    deletePremiacao,
+    selectAllPremiacao,
+    selecByIdPremiacao
 }

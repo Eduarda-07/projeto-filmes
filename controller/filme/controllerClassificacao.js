@@ -22,34 +22,40 @@ const inserirClassificacao = async function(classificacao, contentType){
             if ( 
                 classificacao.descricao  ==  ''  ||  classificacao.descricao  ==  undefined  ||  classificacao.descricao  ==  null  ||  classificacao.descricao.length  > 45
                )
+       
            {
                return message.ERROR_REQUIRED_FIELD //400
            }else{
-               let resultClassificacao= await classificacaoDAO.insertClassificacao(classificacao)
+               let resultClassificacao = await classificacaoDAO.insertClassificacao(classificacao)
        
                if(resultClassificacao){
                    return message.SUCCESS_CREATED_ITEM //201
                }else{
                    return message.ERROR_INTERNAL_SERVER_MODEL //500
-               }       
+               }
+                   
            }   
         }else{
             return message.ERROR_CONTENT_TYPE //415
         }
+
         
     }catch(error){
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
+    
+        
 }
 
-// função para tratar a atualização de uma classificacao no DAO
+// função para tratar a atualização de uma categoria no DAO
 const atualizarClassificacao = async function(id, classificacao, contentType){
     try {
+        
         //contentType é quem chega o body, especificando que deve ser json
         if(String(contentType).toLowerCase() == 'application/json'){
             if (
                 id      == '' ||     id      == undefined || id     == null || isNaN(id)    || id <= 0  || 
-                classificacao.descricao       == '' || classificacao.descricao     == undefined ||  classificacao.descricao     == null || classificacao.descricao.length      > 45 
+                classificacao.descricao         == '' || classificacao.descricao     == undefined || classificacao.descricao     == null || classificacao.descricao.length       > 45 
                )
        
            {
@@ -64,7 +70,7 @@ const atualizarClassificacao = async function(id, classificacao, contentType){
                     if(resultClassificacao.length > 0){
 
                         //update
-                        //adiciona o id da classificacao no json com os dados
+                        //adiciona o id da categoria no json com os dados
                         classificacao.id = parseInt(id)
 
                         let result = await classificacaoDAO.updateClassificacao(classificacao)
@@ -91,7 +97,7 @@ const atualizarClassificacao = async function(id, classificacao, contentType){
     }
 }
 
-// função para tratar a exclusão de uma classificacao no DAO
+// função para tratar a exclusão de uma categoria no DAO
 const excluirClassificacao = async function(id){
     try {
         if (id == '' || id == undefined || id == null || isNaN(id) || id <= 0) {
@@ -103,7 +109,7 @@ const excluirClassificacao = async function(id){
 
             if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
 
-                //se existir, faremos o delete
+                //se existir, aremos o delete
                 if (resultClassificacao.length > 0) {
     
                     //delete
@@ -114,7 +120,7 @@ const excluirClassificacao = async function(id){
                     } else {
                         return message.ERROR_INTERNAL_SERVER_MODEL //500
                     }
-
+    
                 } else {
                     return message.ERROR_NOT_FOUND //404
                 }
@@ -127,14 +133,14 @@ const excluirClassificacao = async function(id){
     }
 }
 
-// função para tratar o retorno de uma lista de classificações no DAO
+// função para tratar o retorno de uma lista de categorias no DAO
 const listarClassificacao = async function(){
         try {
 
             //objeto do tipo JSON
             let dadosClassificacao = {}
 
-            //chama a função para retornar as classificações cadastradas
+            //chama a função para retornar as categorias cadastradas
             let resultClassificacao = await classificacaoDAO.selectAllClassificacao()
 
             if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
@@ -144,7 +150,7 @@ const listarClassificacao = async function(){
                     dadosClassificacao.status = true
                     dadosClassificacao.status_code = 200
                     dadosClassificacao.items = resultClassificacao.length
-                    dadosClassificacao.classificacoes = resultClassificacao
+                    dadosClassificacao.classificacao = resultClassificacao
 
                     return dadosClassificacao
 
@@ -159,18 +165,17 @@ const listarClassificacao = async function(){
         }
 }
 
-// função para tratar o retorno de uma classificacao filtrando pelo ID do DAO
+// função para tratar o retorno de uma categoria filtrando pelo ID do DAO
 const buscarClassificacao = async function(id){
-    
     try {
         if ( id === ""   ||   id === undefined || id === null  || isNaN(id)  || id <= 0 ) {
             
             return message.ERROR_REQUIRED_FIELD //400
 
-        } else {
+        } else {    
             let dadosClassificacao = {}
 
-            let resultClassificacao= await classificacaoDAO.selecByIdClassificacao(parseInt(id))
+            let resultClassificacao = await classificacaoDAO.selecByIdClassificacao(parseInt(id))
 
             if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
 
