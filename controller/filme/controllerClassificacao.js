@@ -9,7 +9,7 @@
 const message = require('../../modulo/config.js')
 
 // import do arquivo para realizar o CROUD de dados no Banco de Dados
-const filmeDAO = require('../../model/DAO/classificacao.js')
+const classificacaoDAO = require('../../model/DAO/classificacao.js')
 
 
 // função para tratar a inserção de uma nova classificacao no DAO
@@ -22,69 +22,52 @@ const inserirClassificacao = async function(classificacao, contentType){
             if ( 
                 classificacao.descricao  ==  ''  ||  classificacao.descricao  ==  undefined  ||  classificacao.descricao  ==  null  ||  classificacao.descricao.length  > 45
                )
-       
            {
-               // response.status_code = 400
-               // response.message = "Os atributos informados na requisição não estão de acordo. Ex: Campos obrigatórios, quantidade de caractéries..."
-       
                return message.ERROR_REQUIRED_FIELD //400
            }else{
-               let resultfilme= await filmeDAO.insertFilme(filme)
+               let resultClassificacao= await classificacaoDAO.insertClassificacao(classificacao)
        
-               if(resultfilme){
+               if(resultClassificacao){
                    return message.SUCCESS_CREATED_ITEM //201
                }else{
                    return message.ERROR_INTERNAL_SERVER_MODEL //500
-               }
-                   
+               }       
            }   
         }else{
             return message.ERROR_CONTENT_TYPE //415
         }
-
         
     }catch(error){
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
-    
-        
 }
 
-// função para tratar a atualização de um filme no DAO
-const atualizarFilme = async function(id, filme, contentType){
+// função para tratar a atualização de uma classificacao no DAO
+const atualizarClassificacao = async function(id, classificacao, contentType){
     try {
-        
         //contentType é quem chega o body, especificando que deve ser json
         if(String(contentType).toLowerCase() == 'application/json'){
             if (
-                id                     == '' || id                     == undefined || id                     == null || isNaN(id) || id <= 0                || 
-                filme.nome             == '' || filme.nome             == undefined || filme.nome             == null || filme.nome.length              > 80 ||
-                filme.duracao          == '' || filme.duracao          == undefined || filme.duracao          == null || filme.duracao.length           > 5  ||
-                filme.sinopse          == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
-                filme.data_lancamento  == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length   > 10 ||
-                filme.foto_capa        == undefined || filme.foto_capa.length     > 200 ||
-                filme.link_trailer     == undefined || filme.link_trailer.length  > 200 
+                id      == '' ||     id      == undefined || id     == null || isNaN(id)    || id <= 0  || 
+                classificacao.descricao       == '' || classificacao.descricao     == undefined ||  classificacao.descricao     == null || classificacao.descricao.length      > 45 
                )
        
            {
-               // response.status_code = 400
-               // response.message = "Os atributos informados na requisição não estão de acordo. Ex: Campos obrigatórios, quantidade de caractéries..."
-       
                return message.ERROR_REQUIRED_FIELD //400
            }else{
 
                //validação para verificar se o id existe no banco
-               let resultFilme = await filmeDAO.selecByIdFilme(parseInt(id))
+               let resultClassificacao = await classificacaoDAO.selecByIdClassificacao(parseInt(id))
                
-               if(resultFilme != false || typeof(resultFilme) == 'object'){
+               if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
 
-                    if(resultFilme.length > 0){
+                    if(resultClassificacao.length > 0){
 
                         //update
-                        //adiciona o id do filme no json com os dados
-                        filme.id = parseInt(id)
+                        //adiciona o id da classificacao no json com os dados
+                        classificacao.id = parseInt(id)
 
-                        let result = await filmeDAO.updateFilme(filme)
+                        let result = await classificacaoDAO.updateClassificacao(classificacao)
 
                         if(result){
                             return message.SUCCESS_UPDATED_ITEM //200
@@ -106,36 +89,32 @@ const atualizarFilme = async function(id, filme, contentType){
     } catch (error) {
         return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
-
-
 }
 
-// função para tratar a exclusão de um filme no DAO
-const excluirFilme = async function(id){
+// função para tratar a exclusão de uma classificacao no DAO
+const excluirClassificacao = async function(id){
     try {
-
-
         if (id == '' || id == undefined || id == null || isNaN(id) || id <= 0) {
             return message.ERROR_REQUIRED_FIELD //400
         } else {
 
             //função para verificar se o id existe no banco de dados
-            let resultFilme = await filmeDAO.selecByIdFilme(parseInt(id))
+            let resultClassificacao = await classificacaoDAO.selecByIdClassificacao(parseInt(id))
 
-            if(resultFilme != false || typeof(resultFilme) == 'object'){
+            if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
 
-                //se existir, aremos o delete
-                if (resultFilme.length > 0) {
+                //se existir, faremos o delete
+                if (resultClassificacao.length > 0) {
     
                     //delete
-                    let result = await filmeDAO.deleteFilme(parseInt(id))
+                    let result = await classificacaoDAO.deleteClassificacao(parseInt(id))
 
                     if (result) {
                         return message.SUCCESS_DELETED_ITEM //200
                     } else {
                         return message.ERROR_INTERNAL_SERVER_MODEL //500
                     }
-    
+
                 } else {
                     return message.ERROR_NOT_FOUND //404
                 }
@@ -148,26 +127,26 @@ const excluirFilme = async function(id){
     }
 }
 
-// função para tratar o retorno de uma lista de filmes no DAO
-const listarFilme = async function(){
+// função para tratar o retorno de uma lista de classificações no DAO
+const listarClassificacao = async function(){
         try {
 
             //objeto do tipo JSON
-            let dadosFilme = {}
+            let dadosClassificacao = {}
 
-            //chama a funçção para retornar os filmes cadastrados
-            let resultFilme = await filmeDAO.selectAllFilme()
+            //chama a função para retornar as classificações cadastradas
+            let resultClassificacao = await classificacaoDAO.selectAllClassificacao()
 
-            if(resultFilme != false || typeof(resultFilme) == 'object'){
-                if(resultFilme.length > 0){
+            if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
+                if(resultClassificacao.length > 0){
 
                     //criando um JSON de retorno de dados para API
-                    dadosFilme.status = true
-                    dadosFilme.status_code = 200
-                    dadosFilme.items = resultFilme.length
-                    dadosFilme.films = resultFilme
+                    dadosClassificacao.status = true
+                    dadosClassificacao.status_code = 200
+                    dadosClassificacao.items = resultClassificacao.length
+                    dadosClassificacao.classificacoes = resultClassificacao
 
-                    return dadosFilme
+                    return dadosClassificacao
 
                 }else{
                     return message.ERROR_NOT_FOUND //404
@@ -180,31 +159,28 @@ const listarFilme = async function(){
         }
 }
 
-// função para tratar o retorno de um filme filtrando pelo ID do DAO
-const buscarFilme = async function(id){
+// função para tratar o retorno de uma classificacao filtrando pelo ID do DAO
+const buscarClassificacao = async function(id){
     
     try {
-
         if ( id === ""   ||   id === undefined || id === null  || isNaN(id)  || id <= 0 ) {
             
             return message.ERROR_REQUIRED_FIELD //400
 
         } else {
+            let dadosClassificacao = {}
 
+            let resultClassificacao= await classificacaoDAO.selecByIdClassificacao(parseInt(id))
+
+            if(resultClassificacao != false || typeof(resultClassificacao) == 'object'){
+
+                if(resultClassificacao.length > 0){
+
+                    dadosClassificacao.status = true
+                    dadosClassificacao.status_code = 200
+                    dadosClassificacao.classificacao = resultClassificacao
     
-            let dadosFilme = {}
-
-            let resultFilme= await filmeDAO.selecByIdFilme(parseInt(id))
-
-            if(resultFilme != false || typeof(resultFilme) == 'object'){
-
-                if(resultFilme.length > 0){
-
-                    dadosFilme.status = true
-                    dadosFilme.status_code = 200
-                    dadosFilme.films = resultFilme
-    
-                    return dadosFilme
+                    return dadosClassificacao
                 }else{
                     return message.ERROR_NOT_FOUND //404
                 }
@@ -214,15 +190,15 @@ const buscarFilme = async function(id){
             }
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 }
 
 module.exports = {
-    inserirFilme,
-    atualizarFilme,
-    excluirFilme,
-    listarFilme,
-    buscarFilme
+    inserirClassificacao,
+    atualizarClassificacao,
+    excluirClassificacao,
+    listarClassificacao,
+    buscarClassificacao
 }
