@@ -248,6 +248,67 @@ app.put('/v1/controle-filmes/genero/:id', cors(), bodyParserJSON, async function
 
 })
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/v1/controle-filmes/categoria', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe do body da requisição os dados encaminhados
+    let dadosBody = request.body
+    let resultCategoria = await controllerCategoria.inserirCategoria(dadosBody, contentType)
+
+    response.status(resultCategoria.status_code)
+    response.json(resultCategoria)
+})
+
+app.get('/v1/controle-filmes/categoria', cors(), async function(request, response) {
+    
+    //chama a função para retornar as categorias
+    let resultCategoria = await controllerCategoria.listarCategoria()
+
+    response.status(resultCategoria.status_code)
+    response.json(resultCategoria)
+})
+
+app.get('/v1/controle-filmes/categoria/:id', cors(), async function(request, response) {
+    
+    let idCategoria = request.params.id
+
+    let resultCategoria = await controllerCategoria.buscarCategoria(idCategoria)
+
+    response.status(resultCategoria.status_code)
+    response.json(resultCategoria)
+})
+
+app.delete('/v1/controle-filmes/categoria/:id', cors(), async function (request, response) {
+    
+    let idCategoria =  request.params.id
+
+    let resultCategoria = await controllerCategoria.excluirCategoria(idCategoria)
+
+    response.status(resultCategoria.status_code)
+    response.json(resultCategoria)
+})
+
+app.put('/v1/controle-filmes/categoria/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idCategoria =  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+    let resultCategoria = await controllerCategoria.atualizarCategoria(idCategoria, dadosBody, contentType)
+
+    response.status(resultCategoria.status_code)
+    response.json(resultCategoria)
+})
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardadndo requisições')
 })
