@@ -46,6 +46,10 @@ app.use((request, response, next) => {
 
 const controllerFilme = require('./controller/filme/controllerFilme')
 const controllerNacionalidade = require('./controller/filme/controllerNacionalidade')
+const controllerGenero = require('./controller/filme/controllerGenero')
+const controllerClassificacao = require('./controller/filme/controllerClassificacao')
+const controllerIdioma = require('./controller/filme/controllerIdioma')
+const controllerCategoria = require('./controller/filme/controllerCategoria')
 
 app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (request, response){
 
@@ -175,6 +179,72 @@ app.delete('/v1/controle-filmes/nacionalidade/:id', cors(), async function (requ
     response.status(resultNacionalidade.status_code)
     response.json(resultNacionalidade)
 
+
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+app.post('/v1/controle-filmes/genero', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe do body da requisição os dados encaminhados
+    let dadosBody = request.body
+    let resultGenero = await controllerGenero.inserirGenero(dadosBody, contentType)
+
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
+})
+
+app.get('/v1/controle-filmes/genero', cors(), async function(request, response) {
+    
+    //chama a função para retornar os filmes
+    let resultGenero = await controllerGenero.listarGenero()
+
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
+
+})
+
+app.get('/v1/controle-filmes/genero/:id', cors(), async function(request, response) {
+    
+    let idGenero = request.params.id
+
+    let resultGenero = await controllerGenero.buscarGenero(idGenero)
+
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
+
+})
+
+app.delete('/v1/controle-filmes/genero/:id', cors(), async function (request, response) {
+    
+    let idGenero =  request.params.id
+
+    let resultGenero = await controllerGenero.excluirGenero(idGenero)
+
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
+
+   
+})
+
+app.put('/v1/controle-filmes/genero/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idGenero =  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+    let resultGenero = await controllerGenero.atualizarGenero(idGenero, dadosBody, contentType)
+
+    response.status(resultGenero.status_code)
+    response.json(resultGenero)
 
 })
 
