@@ -45,11 +45,11 @@ app.use((request, response, next) => {
 
 
 const controllerFilme = require('./controller/filme/controllerFilme')
-const controllerNacionalidade = require('./controller/filme/controllerNacionalidade')
-const controllerGenero = require('./controller/filme/controllerGenero')
-const controllerClassificacao = require('./controller/filme/controllerClassificacao')
-const controllerIdioma = require('./controller/filme/controllerIdioma')
-const controllerPremiacao = require('./controller/filme/controllerPremiacao')
+const controllerNacionalidade = require('./controller/nacionalidade/controllerNacionalidade')
+const controllerGenero = require('./controller/genero/controllerGenero')
+const controllerClassificacao = require('./controller/classificacao/controllerClassificacao')
+const controllerIdioma = require('./controller/idioma/controllerIdioma')
+const controllerPremiacao = require('./controller/premiacao/controllerPremiacao')
 
 app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (request, response){
 

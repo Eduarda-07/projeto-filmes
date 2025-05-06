@@ -21,7 +21,10 @@ const insertFilme = async function(filme){
                     sinopse, 
                     data_lancamento, 
                     foto_capa, 
-                    link_trailer
+                    link_trailer,
+                    id_classificacao,
+                    id_idioma,
+                    id_nacionalidade
                 )
                  
                     values(
@@ -30,7 +33,10 @@ const insertFilme = async function(filme){
                         '${filme.sinopse}',
                         '${filme.data_lancamento}',
                         '${filme.foto_capa}',
-                        '${filme.link_trailer}'
+                        '${filme.link_trailer}',
+                        '${filme.id_classificacao}'
+                        ' ${filme.id_idioma}',
+                        '${filme.id_nacionalidade}'
                     )`
 
          // await só funciona com o "async", serve para fazer uma pausa no terminal para aguardar a conexão com o banco de dados
@@ -59,7 +65,10 @@ const updateFilme = async function(filme){
                                         sinopse             = '${filme.sinopse}', 
                                         data_lancamento     = '${filme.data_lancamento}', 
                                         foto_capa           = '${filme.foto_capa}', 
-                                        link_trailer        = '${filme.link_trailer}'
+                                        link_trailer        = '${filme.link_trailer}',
+                                        id_classificacao    = '${filme.id_classificacao}'
+                                        id_idioma           = ' ${filme.id_idioma}',
+                                        id_nacionalidade    = '${filme.id_nacionalidade}'
                                     where id = ${filme.id}
                                     `
                             

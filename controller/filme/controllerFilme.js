@@ -12,6 +12,7 @@ const message = require('../../modulo/config.js')
 const filmeDAO = require('../../model/DAO/filme.js')
 
 
+
 // função para tratar a inserção de um novo filme no DAO
 const inserirFilme = async function(filme, contentType){
 
@@ -25,7 +26,10 @@ const inserirFilme = async function(filme, contentType){
                 filme.sinopse          == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
                 filme.data_lancamento  == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length  > 10 ||
                 filme.foto_capa        == undefined || filme.foto_capa.length     > 200 ||
-                filme.link_trailer     == undefined || filme.link_trailer.length  > 200 
+                filme.link_trailer     == undefined || filme.link_trailer.length  > 200 ||
+                filme.id_classificacao == '' || filme.id_classificacao == undefined || filme.id_classificacao == null || isNaN(filme.id_classificacao)       || filme.id_classificacao <= 0    || 
+                filme.id_idioma        == '' || filme.id_idioma        == undefined || filme.id_idioma        == null || isNaN(filme.id_idioma)              || filme.id_idioma        <= 0    || 
+                filme.id_nacionalidade == '' || filme.id_nacionalidade == undefined || filme.id_nacionalidade == null || isNaN(filme.id_nacionalidade)       || filme.id_nacionalidade <= 0    
                )
        
            {
@@ -68,7 +72,10 @@ const atualizarFilme = async function(id, filme, contentType){
                 filme.sinopse          == '' || filme.sinopse          == undefined || filme.sinopse          == null ||
                 filme.data_lancamento  == '' || filme.data_lancamento  == undefined || filme.data_lancamento  == null || filme.data_lancamento.length   > 10 ||
                 filme.foto_capa        == undefined || filme.foto_capa.length     > 200 ||
-                filme.link_trailer     == undefined || filme.link_trailer.length  > 200 
+                filme.link_trailer     == undefined || filme.link_trailer.length  > 200 ||
+                filme.id_classificacao == '' || filme.id_classificacao == undefined || filme.id_classificacao == null || isNaN(filme.id_classificacao)       || filme.id_classificacao <= 0    || 
+                filme.id_idioma        == '' || filme.id_idioma        == undefined || filme.id_idioma        == null || isNaN(filme.id_idioma)              || filme.id_idioma        <= 0    || 
+                filme.id_nacionalidade == '' || filme.id_nacionalidade == undefined || filme.id_nacionalidade == null || isNaN(filme.id_nacionalidade)       || filme.id_nacionalidade <= 0    
                )
        
            {
