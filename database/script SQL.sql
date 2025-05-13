@@ -59,3 +59,9 @@ create table tbl_premiacao(
     nome varchar(100) not null,
     ano_indicacao year not null
 );
+
+create table tbl_sexo(
+	id_sexo int not null primary key auto_increment,
+    descricao varchar(45) not null,
+    abreviacao varchar(1) not null
+);
