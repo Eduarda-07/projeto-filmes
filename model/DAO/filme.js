@@ -34,8 +34,8 @@ const insertFilme = async function(filme){
                         '${filme.data_lancamento}',
                         '${filme.foto_capa}',
                         '${filme.link_trailer}',
-                        '${filme.id_classificacao}'
-                        ' ${filme.id_idioma}',
+                        '${filme.id_classificacao}',
+                        '${filme.id_idioma}',
                         '${filme.id_nacionalidade}'
                     )`
 
@@ -48,7 +48,7 @@ const insertFilme = async function(filme){
             return false
  
     }catch (error){
-        // console.log(error)
+        console.log(error)
         return false
     }
 

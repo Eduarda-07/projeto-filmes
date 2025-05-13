@@ -11,7 +11,9 @@ const message = require('../../modulo/config.js')
 // import do arquivo para realizar o CROUD de dados no Banco de Dados
 const filmeDAO = require('../../model/DAO/filme.js')
 
-
+const controllerClassificacao   = require('../classificacao/controllerClassificacao.js')
+const controllerIdioma   = require('../idioma/controllerIdioma.js')
+const controllerNacionalidade   = require('../nacionalidade/controllerNacionalidade.js')
 
 // função para tratar a inserção de um novo filme no DAO
 const inserirFilme = async function(filme, contentType){
@@ -164,6 +166,7 @@ const excluirFilme = async function(id){
 const listarFilme = async function(){
         try {
 
+            let arrayFilmes = []
             //objeto do tipo JSON
             let dadosFilme = {}
 
@@ -177,7 +180,30 @@ const listarFilme = async function(){
                     dadosFilme.status = true
                     dadosFilme.status_code = 200
                     dadosFilme.items = resultFilme.length
-                    dadosFilme.films = resultFilme
+
+                    //Precisamos utilizar o for of, pois o foreach não consegue trabalhar com requisições async com await
+                    for(const itemFilme of resultFilme){
+                        /* Monta o objeto da classificação para retornar no Filme */
+                            //Busca os dados da classificação na controller de classificacao
+                            let dadosClassificacao = await controllerClassificacao.buscarClassificacao(itemFilme.id_classificacao)
+                            //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                            itemFilme.classificacao = dadosClassificacao.classificacao
+                            //Remover o id do JSON
+                            delete itemFilme.id_classificacao
+                        
+
+                            let dadosIdioma = await controllerIdioma.buscarIdioma(itemFilme.id_idioma)
+                            itemFilme.idioma = dadosIdioma.idioma
+                            delete itemFilme.id_idioma
+
+                            let dadosNacionalidade = await controllerNacionalidade.buscarNacionalidade(itemFilme.id_nacionalidade)
+                            itemFilme.nacionalidade = dadosNacionalidade.nacionalidade
+                            delete itemFilme.id_nacionalidade
+                        //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                        arrayFilmes.push(itemFilme)
+     
+                    }
+                    dadosFilme.films = arrayFilmes
 
                     return dadosFilme
 
@@ -203,7 +229,7 @@ const buscarFilme = async function(id){
 
         } else {
 
-    
+            let arrayFilmes= []
             let dadosFilme = {}
 
             let resultFilme= await filmeDAO.selecByIdFilme(parseInt(id))
@@ -214,7 +240,28 @@ const buscarFilme = async function(id){
 
                     dadosFilme.status = true
                     dadosFilme.status_code = 200
-                    dadosFilme.films = resultFilme
+                    for(const itemFilme of resultFilme){
+                        /* Monta o objeto da classificação para retornar no Filme */
+                            //Busca os dados da classificação na controller de classificacao
+                            let dadosClassificacao = await controllerClassificacao.buscarClassificacao(itemFilme.id_classificacao)
+                            //Adiciona um atributo classificação no JSON de filmes e coloca os dados da classificação
+                            itemFilme.classificacao = dadosClassificacao.classificacao
+                            //Remover o id do JSON
+                            delete itemFilme.id_classificacao
+                        
+
+                            let dadosIdioma = await controllerIdioma.buscarIdioma(itemFilme.id_idioma)
+                            itemFilme.idioma = dadosIdioma.idioma
+                            delete itemFilme.id_idioma
+
+                            let dadosNacionalidade = await controllerNacionalidade.buscarNacionalidade(itemFilme.id_nacionalidade)
+                            itemFilme.nacionalidade = dadosNacionalidade.nacionalidade
+                            delete itemFilme.id_nacionalidade
+                        //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                        arrayFilmes.push(itemFilme)
+     
+                    }
+                    dadosFilme.films = arrayFilmes
     
                     return dadosFilme
                 }else{

@@ -6,10 +6,10 @@
  *******************************************************************************************/
 
 // import do arquivo de mensagens e status code o projeto
-const message = require('../modulo/config.js')
+const message = require('../../modulo/config.js')
 
 // import do arquivo para realizar o CROUD de dados no Banco de Dados
-const generoDAO = require('../model/DAO/genero.js')
+const generoDAO = require('../../model/DAO/genero.js')
 
 
 // função para tratar a inserção de um novo genero no DAO
