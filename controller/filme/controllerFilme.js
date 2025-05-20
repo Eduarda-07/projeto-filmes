@@ -10,10 +10,13 @@ const message = require('../../modulo/config.js')
 
 // import do arquivo para realizar o CROUD de dados no Banco de Dados
 const filmeDAO = require('../../model/DAO/filme.js')
+const filmeGeneroDAO = require('../../model/DAO/filme_genero.js');
+
 
 const controllerClassificacao   = require('../classificacao/controllerClassificacao.js')
 const controllerIdioma   = require('../idioma/controllerIdioma.js')
 const controllerNacionalidade   = require('../nacionalidade/controllerNacionalidade.js')
+const controllerFilmeGenero  = require('./controllerFilmeGenero.js')
 
 // função para tratar a inserção de um novo filme no DAO
 const inserirFilme = async function(filme, contentType){
@@ -42,19 +45,38 @@ const inserirFilme = async function(filme, contentType){
            }else{
                let resultfilme= await filmeDAO.insertFilme(filme)
        
-               if(resultfilme){
+                // associando generos
+               if (resultfilme) {
+               
+                if (filme.genero && Array.isArray(filme.genero)) {
+                    // Obtém o ID do filme inserido
+                    let filmeInserido = await filmeDAO.selectLastInsertId();
+                    let idFilme = filmeInserido[0].id;
+                    
+                    // Para cada gênero no array, cria a relação
+                    for (let genero of filme.genero) {
+                        if (genero.id && !isNaN(genero.id)) {
+                            let filmeGenero = {
+                                id_filme: idFilme,
+                                id_genero: genero.id
+                            };
+                            await filmeGeneroDAO.insertFilmeGenero(filmeGenero);
+                        }
+                    }
+                }
                    return message.SUCCESS_CREATED_ITEM //201
                }else{
                    return message.ERROR_INTERNAL_SERVER_MODEL //500
-               }
-                   
-           }   
+                    }
+            }   
         }else{
             return message.ERROR_CONTENT_TYPE //415
         }
 
         
     }catch(error){
+        console.log(error);
+        
         return message.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
     
@@ -199,6 +221,12 @@ const listarFilme = async function(){
                             let dadosNacionalidade = await controllerNacionalidade.buscarNacionalidade(itemFilme.id_nacionalidade)
                             itemFilme.nacionalidade = dadosNacionalidade.nacionalidade
                             delete itemFilme.id_nacionalidade
+
+                            let dadosGenero = await controllerFilmeGenero.buscarGeneroPorFilme(itemFilme.id)
+                            console.log(dadosGenero);
+                            
+                            itemFilme.genero = dadosGenero.genero
+
                         //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
                         arrayFilmes.push(itemFilme)
      

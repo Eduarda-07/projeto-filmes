@@ -51,6 +51,7 @@ const controllerClassificacao = require('./controller/classificacao/controllerCl
 const controllerIdioma = require('./controller/idioma/controllerIdioma')
 const controllerPremiacao = require('./controller/premiacao/controllerPremiacao')
 const controllerSexo = require('./controller/sexo/controllerSexo')
+const controllerAvaliacao = require('./controller/avaliacao/controllerAvaliacao')
 
 app.post('/v1/controle-filmes/filme', cors(), bodyParserJSON, async function (request, response){
 
@@ -501,67 +502,67 @@ app.delete('/v1/controle-filmes/sexo/:id', cors(), async function (request, resp
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.post('/v1/controle-filmes/dublagem', cors(), bodyParserJSON, async function (request, response){
+app.post('/v1/controle-filmes/avaliacao', cors(), bodyParserJSON, async function (request, response){
 
     //recebe o content type da requisição
     let contentType = request.headers['content-type']
 
     //recebe do body da requisição os dados encaminhados
     let dadosBody = request.body
-    let resultDublagem = await controllerDublagem.inserirDublagem(dadosBody, contentType)
+    let resultAvaliacao = await controllerAvaliacao.inserirAvaliacao(dadosBody, contentType)
 
-    response.status(resultDublagem.status_code)
-    response.json(resultDublagem)
+    response.status(resultAvaliacao.status_code)
+    response.json(resultAvaliacao)
 })
 
-app.put('/v1/controle-filmes/dublagem/:id', cors(), bodyParserJSON, async function (request, response) {
+app.put('/v1/controle-filmes/avaliacao/:id', cors(), bodyParserJSON, async function (request, response) {
     
     //recebe o content type da requisição
     let contentType = request.headers['content-type']
 
     //recebe o id da requisição
-    let idDublagem=  request.params.id
+    let idAvaliacao =  request.params.id
 
     //recebe os dados da requisição pelo body
     let dadosBody = request.body
 
 
-    let resultDublagem = await controllerDublagem.atualizarDublagem(idDublagem, dadosBody, contentType)
+    let resultAvaliacao = await controllerAvaliacao.atualizarAvaliacao(idAvaliacao, dadosBody, contentType)
 
-    response.status(resultSexo.status_code)
-    response.json(resultDublagem)
+    response.status(resultAvaliacao.status_code)
+    response.json(resultAvaliacao)
 
 })
 
-app.get('/v1/controle-filmes/dublagem', cors(), async function(request, response) {
+app.get('/v1/controle-filmes/avaliacao', cors(), async function(request, response) {
     
-    let resultDublagem = await controllerDublagem.listarDublagem()
+    let resultAvaliacao = await controllerAvaliacao.listarAvaliacao()
 
-    response.status(resultDublagem.status_code)
-    response.json(resultDublagem)
+    response.status(resultAvaliacao.status_code)
+    response.json(resultAvaliacao)
 
 })
 
-app.get('/v1/controle-filmes/dublagem/:id', cors(), async function(request, response) {
+app.get('/v1/controle-filmes/avaliacao/:id', cors(), async function(request, response) {
     
-    let idDublagem = request.params.id
+    let idAvaliacao = request.params.id
 
-    let resultDublagem = await controllerDublagem.buscarDublagem(idDublagem)
+    let resultAvaliacao = await controllerAvaliacao.buscarAvaliacao(idAvaliacao)
 
-    response.status(resultDublagem.status_code)
-    response.json(resultDublagem)
+    response.status(resultAvaliacao.status_code)
+    response.json(resultAvaliacao)
 
 })
 
-app.delete('/v1/controle-filmes/dublagem/:id', cors(), async function (request, response) {
+app.delete('/v1/controle-filmes/avaliacao/:id', cors(), async function (request, response) {
     
     // item 3 deletado no teste
-    let idDublagem =  request.params.id
+    let idAvaliacao =  request.params.id
 
-    let resultDublagem = await controllerDublagem.excluirDublagem(idDublagem)
+    let resultAvaliacao = await controllerAvaliacao.excluirAvaliacao(idAvaliacao)
 
-    response.status(resultDublagem.status_code)
-    response.json(resultDublagem)
+    response.status(resultAvaliacao.status_code)
+    response.json(resultAvaliacao)
 
 
 })

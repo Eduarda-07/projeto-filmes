@@ -131,7 +131,7 @@ const selectFilmeByIdGenero = async function(idGenero){
 //Função para retornar os generos pelo Filme
 const selectGeneroByIdFilme = async function(idFilme){
  try {
-      let sql = `select tbl_genero.* from tbl_filme 
+      let sql = `select tbl_genero* from tbl_filme 
                                             inner join tbl_filme_genero
                                               on tbl_filme.id = tbl_filme_genero.id_filme
                                             inner join tbl_genero
@@ -145,6 +145,8 @@ const selectGeneroByIdFilme = async function(idFilme){
     else 
         return false
   } catch (error) {
+    console.log(error);
+    
       return false
   }
 }

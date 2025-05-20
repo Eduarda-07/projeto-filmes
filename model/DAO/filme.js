@@ -43,12 +43,12 @@ const insertFilme = async function(filme){
         let result = await prisma.$executeRawUnsafe(sql)
 
         if(result)
-            return true
+            return result
         else
             return false
  
     }catch (error){
-        console.log(error)
+       
         return false
     }
 
@@ -142,12 +142,27 @@ const selecByIdFilme = async function(id){
 
 }
 
+const selectLastInsertId = async function(){
+    try {
+        let sql = `select id from tbl_filme order by id desc limit 1`
+
+        let result =  await prisma.$queryRawUnsafe(sql) 
+        if (result) {
+            return result
+        } else {
+            return false
+        }
+    } catch (error) {
+        return false
+    }
+}
 module.exports = {
     insertFilme,
     updateFilme,
     deleteFilme,
     selectAllFilme,
-    selecByIdFilme
+    selecByIdFilme,
+    selectLastInsertId
 }
 
 
