@@ -501,6 +501,73 @@ app.delete('/v1/controle-filmes/sexo/:id', cors(), async function (request, resp
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+app.post('/v1/controle-filmes/dublagem', cors(), bodyParserJSON, async function (request, response){
+
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe do body da requisição os dados encaminhados
+    let dadosBody = request.body
+    let resultDublagem = await controllerDublagem.inserirDublagem(dadosBody, contentType)
+
+    response.status(resultDublagem.status_code)
+    response.json(resultDublagem)
+})
+
+app.put('/v1/controle-filmes/dublagem/:id', cors(), bodyParserJSON, async function (request, response) {
+    
+    //recebe o content type da requisição
+    let contentType = request.headers['content-type']
+
+    //recebe o id da requisição
+    let idDublagem=  request.params.id
+
+    //recebe os dados da requisição pelo body
+    let dadosBody = request.body
+
+
+    let resultDublagem = await controllerDublagem.atualizarDublagem(idDublagem, dadosBody, contentType)
+
+    response.status(resultSexo.status_code)
+    response.json(resultDublagem)
+
+})
+
+app.get('/v1/controle-filmes/dublagem', cors(), async function(request, response) {
+    
+    let resultDublagem = await controllerDublagem.listarDublagem()
+
+    response.status(resultDublagem.status_code)
+    response.json(resultDublagem)
+
+})
+
+app.get('/v1/controle-filmes/dublagem/:id', cors(), async function(request, response) {
+    
+    let idDublagem = request.params.id
+
+    let resultDublagem = await controllerDublagem.buscarDublagem(idDublagem)
+
+    response.status(resultDublagem.status_code)
+    response.json(resultDublagem)
+
+})
+
+app.delete('/v1/controle-filmes/dublagem/:id', cors(), async function (request, response) {
+    
+    // item 3 deletado no teste
+    let idDublagem =  request.params.id
+
+    let resultDublagem = await controllerDublagem.excluirDublagem(idDublagem)
+
+    response.status(resultDublagem.status_code)
+    response.json(resultDublagem)
+
+
+})
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 app.listen('8080', function(){
     console.log('API funcionando e aguardadndo requisições')
 })

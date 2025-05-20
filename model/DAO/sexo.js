@@ -45,7 +45,7 @@ const updateSexo = async function(sexo){
 
     try {
         
-        let sql = `update tbl_sexo set descricao = '${sexo.descricao}',
+        let sql = `update tbl_sexo set descricao  = '${sexo.descricao}',
                                        abreviacao = '${sexo.abreviacao}'
                                     where id_sexo = ${sexo.id}
                                     `

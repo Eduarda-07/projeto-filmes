@@ -20,7 +20,9 @@ const inserirClassificacao = async function(classificacao, contentType){
         //contentType é quem chega o body, especificando que deve ser json
         if(String(contentType).toLowerCase() == 'application/json'){
             if ( 
-                classificacao.descricao  ==  ''  ||  classificacao.descricao  ==  undefined  ||  classificacao.descricao  ==  null  ||  classificacao.descricao.length  > 45
+                classificacao.descricao      ==  ''  ||  classificacao.descricao      ==  undefined  ||  classificacao.descricao      ==  null  ||  classificacao.descricao.length      > 45 ||
+                classificacao.classificacao  ==  ''  ||  classificacao.classificacao  ==  undefined  ||  classificacao.classificacao  ==  null  ||  classificacao.classificacao.length  > 45 ||
+                classificacao.idade          ==  ''  ||  classificacao.idade          ==  undefined  ||  classificacao.idade          ==  null  ||  classificacao.idade.length          > 2
                )
        
            {
@@ -55,7 +57,9 @@ const atualizarClassificacao = async function(id, classificacao, contentType){
         if(String(contentType).toLowerCase() == 'application/json'){
             if (
                 id      == '' ||     id      == undefined || id     == null || isNaN(id)    || id <= 0  || 
-                classificacao.descricao         == '' || classificacao.descricao     == undefined || classificacao.descricao     == null || classificacao.descricao.length       > 45 
+                classificacao.descricao      ==  ''  || classificacao.descricao       == undefined   || classificacao.descricao       == null   || classificacao.descricao.length       > 45 ||
+                classificacao.classificacao  ==  ''  ||  classificacao.classificacao  ==  undefined  ||  classificacao.classificacao  ==  null  ||  classificacao.classificacao.length  > 45 ||
+                classificacao.idade          ==  ''  ||  classificacao.idade          ==  undefined  ||  classificacao.idade          ==  null  ||  classificacao.idade.length          > 2 
                )
        
            {

@@ -16,10 +16,14 @@ const prisma = new PrismaClient()
 const insertClassificacao = async function(classificacao){
     try{
         let sql = `insert into tbl_classificacao (
-                   descricao
+                   descricao,
+                   classificacao,
+                   idade
                 )
                     values(
-                        '${classificacao.descricao}'
+                        '${classificacao.descricao}',
+                        '${classificacao.classificacao}',
+                        '${classificacao.idade}'
                     )`
 
          // await só funciona com o "async", serve para fazer uma pausa no terminal para aguardar a conexão com o banco de dados
@@ -43,7 +47,9 @@ const updateClassificacao = async function(classificacao){
 
     try {
         
-        let sql = `update tbl_classificacao set descricao  = '${classificacao.descricao}' 
+        let sql = `update tbl_classificacao set descricao     = '${classificacao.descricao}', 
+                                                classificacao = '${classificacao.classificacao}', 
+                                                idade         = '${classificacao.idade}'
                                     where id_classificacao = '${classificacao.id}'
                                     `
         
