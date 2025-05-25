@@ -232,7 +232,7 @@ const buscarAvaliacao = async function(id){
                                         
                        }
 
-                    dadosAvaliacao.avaliacao = arrayAvaliacao
+                    dadosAvaliacao.avaliacao = arrayAvaliacao 
     
                     return dadosAvaliacao
                 }else{
