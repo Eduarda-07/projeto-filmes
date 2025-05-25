@@ -88,7 +88,7 @@ create table tbl_dublagem(
 );
 
 create table tbl_avaliacao(
-	id_sexo int not null primary key auto_increment,
+	id_avaliacao int not null primary key auto_increment,
     descricao varchar(45) not null,
     nota int not null,
     id_filme int not null,

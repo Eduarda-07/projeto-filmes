@@ -20,8 +20,8 @@ const insertFilmeGenero = async function(filmeGenero){
                                         ) 
                                           values 
                                         (
-                                          '${filmeGenero.id_filme}',
-                                          '${filmeGenero.id_genero}'
+                                          ${filmeGenero.id_filme},
+                                          ${filmeGenero.id_genero}
                                         )`
                                 
       let result = await prisma.$executeRawUnsafe(sql)
@@ -54,7 +54,7 @@ const updateFilmeGenero = async function(filmeGenero){
     return false
   }
 }
-
+  
 //Função para excluir um FilmeGenero existente
 const deleteFilmeGenero = async function(id){
   try {
@@ -117,13 +117,16 @@ const selectFilmeByIdGenero = async function(idGenero){
                                               on tbl_genero.id = tbl_filme_genero.id_genero
                   where tbl_filme_genero.id_genero = ${idGenero}`
 
-      let result = await prisma.$queryRawUnsafe(sql)
-
-    if (result)
-        return result
-    else 
-        return false
+       let result = await prisma.$queryRawUnsafe(sql)
+     
+    if (result){
+      return result
+    }else {
+      
+      return false
+    }
   } catch (error) {
+    
       return false
   }
 }
@@ -131,25 +134,21 @@ const selectFilmeByIdGenero = async function(idGenero){
 //Função para retornar os generos pelo Filme
 const selectGeneroByIdFilme = async function(idFilme){
  try {
-      let sql = `select tbl_genero* from tbl_filme 
-                                            inner join tbl_filme_genero
-                                              on tbl_filme.id = tbl_filme_genero.id_filme
-                                            inner join tbl_genero
-                                              on tbl_genero.id = tbl_filme_genero.id_genero
+      let sql = `select tbl_genero.* from tbl_filme_genero
+                                inner join tbl_genero
+                                  on tbl_genero.id_genero = tbl_filme_genero.id_genero
                   where tbl_filme_genero.id_filme = ${idFilme}`
                   
       let result = await prisma.$queryRawUnsafe(sql)
-
-    if (result)
+    if (result && result.length > 0)
         return result
     else 
         return false
   } catch (error) {
-    console.log(error);
-    
       return false
   }
 }
+
 
 
 module.exports = {

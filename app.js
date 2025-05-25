@@ -6,8 +6,8 @@
  * observação: 
  * 1) para criar a API precisamos instalar -> expres, cors e body-parser
  *      express: npm install express --save
- *      cors: nmp install cors --save
- *      body-parser: nmp install body-parser --save
+ *      cors: npm install cors --save
+ *      body-parser: npm install body-parser --save
  * 2) para criar interação com o banco de dados precisamos instalar -> prisma e prisma/client
  *       prisma -> npm install prisma --save (gerencia conexão com o banco)
  *       prisma/client -> npm install @prisma/client --save (para rodar scripts SQL)

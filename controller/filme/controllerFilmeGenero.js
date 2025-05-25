@@ -111,6 +111,8 @@ const excluirFilmeGenero = async function(id){
             }
         }
     } catch (error) {
+        console.log(error);
+        
         return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 }
@@ -180,23 +182,20 @@ const buscarGeneroPorFilme = async function(idFilme){
         if(idFilme == '' || idFilme == undefined || idFilme == null || isNaN(idFilme) || idFilme <=0){
             return message.ERROR_REQUIRED_FIELD //400
         }else{
-            dadosFilmeGenero = {}
+            let dadosFilmeGenero = {} 
 
-            let resultgenero = await filmeGeneroDAO.selectGeneroByIdFilme (parseInt(idFilme))
+            let resultgenero = await filmeGeneroDAO.selectGeneroByIdFilme(parseInt(idFilme))
             
-            if(resultgenero != false || typeof(resultgenero) == 'object'){
-                if(resultgenero.length > 0){
-                     //Criando um JSON de retorno de dados para a API
-                    dadosgenero.status = true
-                    dadosgenero.status_code = 200
-                    dadosgenero.genero = resultgenero
+            if(resultgenero && Array.isArray(resultgenero) && resultgenero.length > 0){
+               
+                dadosFilmeGenero.status = true
+                dadosFilmeGenero.status_code = 200
+                dadosFilmeGenero.genero = resultgenero 
 
-                    return dadosgenero //200
-                }else{
-                    return message.ERROR_NOT_FOUND //404
-                }
+                return dadosFilmeGenero // 200
             }else{
-                return message.ERROR_INTERNAL_SERVER_MODEL //500
+           
+                return message.ERROR_NOT_FOUND // 404
             }
         }
 
@@ -205,10 +204,6 @@ const buscarGeneroPorFilme = async function(idFilme){
     }
 }
 
-
-
-
-
 module.exports = {
     inserirFilmeGenero,
     atualizarFilmeGenero,
@@ -216,4 +211,4 @@ module.exports = {
     listarFilmeGenero,
     buscarFilmeGenero,
     buscarGeneroPorFilme
-} 
+}

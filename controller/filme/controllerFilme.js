@@ -46,20 +46,25 @@ const inserirFilme = async function(filme, contentType){
                let resultfilme= await filmeDAO.insertFilme(filme)
        
                 // associando generos
+                // verificando se o filme foi inserido no banco
                if (resultfilme) {
                
+                //verificando se tem algum campo chamado "genero" para ser add e se esse campo retorna um array
                 if (filme.genero && Array.isArray(filme.genero)) {
                     // Obtém o ID do filme inserido
-                    let filmeInserido = await filmeDAO.selectLastInsertId();
-                    let idFilme = filmeInserido[0].id;
+                    let filmeInserido = await filmeDAO.selectLastInsertId()
+                    //acessa a propriedade id dentro do objeto retornado
+                    let idFilme = filmeInserido[0].id
                     
-                    // Para cada gênero no array, cria a relação
+                    // Para cada gênero no array do body, cria uma variavel genero na lista de filme 
                     for (let genero of filme.genero) {
+                        // verifica se o campo "genero" possui um atributo id e se é int
                         if (genero.id && !isNaN(genero.id)) {
+                            // adicionando os ids na tbl_filme_genero
                             let filmeGenero = {
                                 id_filme: idFilme,
                                 id_genero: genero.id
-                            };
+                            }
                             await filmeGeneroDAO.insertFilmeGenero(filmeGenero);
                         }
                     }
@@ -119,7 +124,7 @@ const atualizarFilme = async function(id, filme, contentType){
                         //update
                         //adiciona o id do filme no json com os dados
                         filme.id = parseInt(id)
-
+                        
                         let result = await filmeDAO.updateFilme(filme)
 
                         if(result){
@@ -180,6 +185,8 @@ const excluirFilme = async function(id){
             }
         }
     } catch (error) {
+        console.log(error);
+        
         return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 }
@@ -222,12 +229,21 @@ const listarFilme = async function(){
                             itemFilme.nacionalidade = dadosNacionalidade.nacionalidade
                             delete itemFilme.id_nacionalidade
 
+                            // fazendo interação com a tbl_filme_genero
                             let dadosGenero = await controllerFilmeGenero.buscarGeneroPorFilme(itemFilme.id)
-                            console.log(dadosGenero);
-                            
-                            itemFilme.genero = dadosGenero.genero
 
-                        //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
+                            // verificando se retorna array e se não é false
+                            if (dadosGenero && Array.isArray(dadosGenero.genero)) {
+                            itemFilme.genero = dadosGenero.genero
+                            } else {
+                            //console.log(itemFilme.generos);
+                            
+                            //se for false retorna um array vazio 
+                            itemFilme.genero = []
+
+
+                            }
+
                         arrayFilmes.push(itemFilme)
      
                     }
@@ -242,6 +258,8 @@ const listarFilme = async function(){
                 return message.ERROR_INTERNAL_SERVER_MODEL //500
             }
         } catch (error) {
+            console.log(error);
+            
             return message.ERROR_INTERNAL_SERVER_CONTROLLER //500
         }
 }
@@ -285,6 +303,18 @@ const buscarFilme = async function(id){
                             let dadosNacionalidade = await controllerNacionalidade.buscarNacionalidade(itemFilme.id_nacionalidade)
                             itemFilme.nacionalidade = dadosNacionalidade.nacionalidade
                             delete itemFilme.id_nacionalidade
+
+                                // fazendo interação com a tbl_filme_genero
+                            let dadosGenero = await controllerFilmeGenero.buscarGeneroPorFilme(itemFilme.id)
+                            // verificando se retorna array e se não é false
+                            if (dadosGenero && Array.isArray(dadosGenero.genero)) {
+                            itemFilme.genero = dadosGenero.genero
+                            } else {
+                            //se for false retorna um array vazio 
+                            itemFilme.genero = []
+                            }
+
+
                         //Adiciona em um novo array o JSON de filmes com a sua nova estrutura de dados
                         arrayFilmes.push(itemFilme)
      

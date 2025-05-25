@@ -48,8 +48,8 @@ const updateAvaliacao = async function(avaliacao){
         
         let sql = `update tbl_avaliacao set descricao       = '${avaliacao.descricao}', 
                                             nota            = '${avaliacao.nota}', 
-                                            id_filme        = '${avaliacao.id_filme}'
-                                    where id = ${avaliacao.id}
+                                            id_filme        = ${avaliacao.id_filme}
+                                    where id_avaliacao = ${avaliacao.id}
                                     `
                             
         let resultAvaliacao = await prisma.$executeRawUnsafe(sql)
@@ -61,6 +61,8 @@ const updateAvaliacao = async function(avaliacao){
         }
 
     } catch (error) {
+        console.log(error);
+        
         return false
     }
 
@@ -69,7 +71,7 @@ const updateAvaliacao = async function(avaliacao){
 // função para deletar um filme existente
 const deleteAvaliacao = async function(id){
     try {
-        let sql = `delete from tbl_avaliacao where id = ${id}`
+        let sql = `delete from tbl_avaliacao where id_avaliacao = ${id}`
 
         let result =  await prisma.$executeRawUnsafe(sql)
 
@@ -88,7 +90,7 @@ const selectAllAvaliacao = async function(){
     try{
 
         //scriptSQL para retornar todos os dados
-        let sql = 'select * from tbl_avaliacao order by id desc'
+        let sql = 'select * from tbl_avaliacao order by id_avaliacao desc'
 
         //executa o scriptSQL no banco de dados e aguarda o retorno dos dados 
         let result = await prisma.$queryRawUnsafe(sql)
@@ -99,6 +101,8 @@ const selectAllAvaliacao = async function(){
             return false
 
     }catch(error){
+        console.log(error);
+        
         return false
     }
 }
@@ -107,7 +111,7 @@ const selectAllAvaliacao = async function(){
 const selectByIdAvaliacao = async function(id){
     
     try {
-        let sql = `select * from tbl_avaliacao where id = ${id}`
+        let sql = `select * from tbl_avaliacao where id_avaliacao = ${id}`
 
         let result =  await prisma.$queryRawUnsafe(sql)
 
@@ -117,6 +121,8 @@ const selectByIdAvaliacao = async function(id){
             return false
         }
     } catch (error) {
+        console.log(error);
+        
         return false
     }
 
