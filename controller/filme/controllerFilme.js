@@ -165,23 +165,26 @@ const excluirFilme = async function(id){
 
             if(resultFilme != false || typeof(resultFilme) == 'object'){
 
-                //se existir, aremos o delete
+                //se existir, faremos o delete
                 if (resultFilme.length > 0) {
-    
-                    //delete
-                    let result = await filmeDAO.deleteFilme(parseInt(id))
+                    //delete do genero na nxn
+                    let deleteGenero = await filmeGeneroDAO.deleteByFilme(id);
+                         
+                    if (deleteGenero) {
+                        //delete do filme
+                        let result = await filmeDAO.deleteFilme(parseInt(id))
 
-                    if (result) {
-                        return message.SUCCESS_DELETED_ITEM //200
-                    } else {
-                        return message.ERROR_INTERNAL_SERVER_MODEL //500
-                    }
-    
+                        if (result) {
+                            return message.SUCCESS_DELETED_ITEM //200
+                        } else {
+                            return message.ERROR_INTERNAL_SERVER_MODEL //500
+                        }
+                    }   
                 } else {
-                    return message.ERROR_NOT_FOUND //404
+                    return message.ERROR_INTERNAL_SERVER_MODEL //404
                 }
             }else{
-                return message.ERROR_INTERNAL_SERVER_MODEL //500
+                return message.ERROR_NOT_FOUND //500
             }
         }
     } catch (error) {

@@ -56,9 +56,9 @@ const updateFilmeGenero = async function(filmeGenero){
 }
   
 //Função para excluir um FilmeGenero existente
-const deleteFilmeGenero = async function(id){
+const deleteByFilme = async function(id_filme){
   try {
-    let sql = `delete from tbl_filme_genero where id = ${id}`
+    let sql = `delete from tbl_filme_genero where id_filme = ${id_filme}`
 
     let result = await prisma.$executeRawUnsafe(sql)
 
@@ -154,7 +154,7 @@ const selectGeneroByIdFilme = async function(idFilme){
 module.exports = {
     insertFilmeGenero,
     updateFilmeGenero,
-    deleteFilmeGenero,
+    deleteByFilme,
     selectAllFilmeGenero,
     selectByIdFilmeGenero,
     selectFilmeByIdGenero,
